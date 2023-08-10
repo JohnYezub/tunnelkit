@@ -232,33 +232,36 @@ extension NetworkSettingsBuilder {
             return nil
         }
         var dnsSettings: NEDNSSettings?
-        switch localOptions.dnsProtocol {
-        case .https:
-            let dnsServers = localOptions.dnsServers ?? []
-            guard let serverURL = localOptions.dnsHTTPSURL else {
+        if #available(iOS 14.0, *) {
+            switch localOptions.dnsProtocol {
+            case .https:
+                let dnsServers = localOptions.dnsServers ?? []
+                guard let serverURL = localOptions.dnsHTTPSURL else {
+                    break
+                }
+                let specific = NEDNSOverHTTPSSettings(servers: dnsServers)
+
+                specific.serverURL = serverURL
+
+                dnsSettings = specific
+                log.info("DNS over HTTPS: Using servers \(dnsServers)")
+                log.info("\tHTTPS URL: \(serverURL)")
+
+            case .tls:
+                let dnsServers = localOptions.dnsServers ?? []
+                guard let serverName = localOptions.dnsTLSServerName else {
+                    break
+                }
+                let specific = NEDNSOverTLSSettings(servers: dnsServers)
+                specific.serverName = serverName
+                dnsSettings = specific
+                log.info("DNS over TLS: Using servers \(dnsServers)")
+                log.info("\tTLS server name: \(serverName)")
+
+            default:
                 break
             }
-            let specific = NEDNSOverHTTPSSettings(servers: dnsServers)
-            specific.serverURL = serverURL
-            dnsSettings = specific
-            log.info("DNS over HTTPS: Using servers \(dnsServers)")
-            log.info("\tHTTPS URL: \(serverURL)")
-
-        case .tls:
-            let dnsServers = localOptions.dnsServers ?? []
-            guard let serverName = localOptions.dnsTLSServerName else {
-                break
-            }
-            let specific = NEDNSOverTLSSettings(servers: dnsServers)
-            specific.serverName = serverName
-            dnsSettings = specific
-            log.info("DNS over TLS: Using servers \(dnsServers)")
-            log.info("\tTLS server name: \(serverName)")
-
-        default:
-            break
         }
-
         // fall back
         if dnsSettings == nil {
             let dnsServers = allDNSServers

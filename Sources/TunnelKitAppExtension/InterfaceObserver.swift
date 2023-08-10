@@ -112,14 +112,19 @@ public class InterfaceObserver: NSObject {
      - Parameter completionHandler: Receives the current Wi-Fi SSID if any.
      **/
     public static func fetchCurrentSSID(completionHandler: @escaping (String?) -> Void) {
-        #if os(iOS)
-        NEHotspotNetwork.fetchCurrent {
-            completionHandler($0?.ssid)
+        if #available(iOS 14.0, *) {
+#if os(iOS)
+            NEHotspotNetwork.fetchCurrent {
+                completionHandler($0?.ssid)
+            }
+#else
+            let client = CWWiFiClient.shared()
+            let ssid = client.interfaces()?.compactMap { $0.ssid() }.first
+            completionHandler(ssid)
+#endif
+        } else {
+            // Fallback on earlier versions
+            completionHandler(nil)
         }
-        #else
-        let client = CWWiFiClient.shared()
-        let ssid = client.interfaces()?.compactMap { $0.ssid() }.first
-        completionHandler(ssid)
-        #endif
     }
 }

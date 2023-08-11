@@ -1,5 +1,4 @@
-![iOS 15+](https://img.shields.io/badge/ios-15+-green.svg)
-![macOS 12+](https://img.shields.io/badge/macos-12+-green.svg)
+![iOS 15+](https://img.shields.io/badge/ios-13+-green.svg)
 [![License GPLv3](https://img.shields.io/badge/license-GPLv3-lightgray.svg)](LICENSE)
 
 [![Unit Tests](https://github.com/passepartoutvpn/tunnelkit/actions/workflows/test.yml/badge.svg)](https://github.com/passepartoutvpn/tunnelkit/actions/workflows/test.yml)

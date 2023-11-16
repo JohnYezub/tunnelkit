@@ -4,7 +4,11 @@
 [![Unit Tests](https://github.com/passepartoutvpn/tunnelkit/actions/workflows/test.yml/badge.svg)](https://github.com/passepartoutvpn/tunnelkit/actions/workflows/test.yml)
 [![Release](https://github.com/passepartoutvpn/tunnelkit/actions/workflows/release.yml/badge.svg)](https://github.com/passepartoutvpn/tunnelkit/actions/workflows/release.yml)
 
-# TunnelKit
+# TunnelKit(forked)
+Featured:
+- Minimum target 13.0
+- Remove WireGuard
+- Add connectionDate to VPN connected status
 
 This library provides a generic framework for VPN development on Apple platforms.
 
